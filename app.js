@@ -17,7 +17,7 @@ Export and run database models
 let models = require("./models");
 
 models.sequelize.authenticate().then(async () => {
-  await models.sequelize.sync({ force: true });
+  await models.sequelize.sync({ force: false });
 
   // Create super admin
   const User = models.users;

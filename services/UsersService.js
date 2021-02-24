@@ -22,7 +22,7 @@ class UsersService {
                 return {
                     token: generateJWT(user.id, process.env.JWT_ENCRYPTION_KEY),
                     user: user
-                }
+                };
             }
         } else {
             throw new Error('Oops! User data is not valid.');
@@ -40,7 +40,7 @@ class UsersService {
                     return {
                         token: generateJWT(user.id, process.env.JWT_ENCRYPTION_KEY),
                         user: user
-                    }
+                    };
                 } else {
                     throw new Error('Oops! Wrong password.');
                 }
@@ -50,6 +50,14 @@ class UsersService {
         } else {
             throw new Error('Oops! User data is not valid.');
         }
+    }
+
+    async listUser(userId) {
+        let user = await this.userModel.findByPk(userId);
+
+        return {
+            user
+        };
     }
 }
 

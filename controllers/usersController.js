@@ -36,7 +36,24 @@ const login = async (req, res) => {
     }
 };
 
+const listUser = async (req, res) => {
+    try {
+        const user = await usersService.listUser(req.user.id);
+
+        return res.json({
+            ...user,
+            status: true
+        });
+    } catch (err) {
+        return res.json({
+            error: err.message,
+            status: false
+        });
+    }
+};
+
 module.exports = {
     register,
-    login
+    login,
+    listUser
 };
