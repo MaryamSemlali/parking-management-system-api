@@ -72,9 +72,26 @@ const updateUser = async (req, res) => {
     }
 };
 
+const updateConnectedUser = async (req, res) => {
+    try {
+        const user = await usersService.updateUser(req.user.id, req.body);
+
+        return res.json({
+            ...user,
+            status: true
+        });
+    } catch (err) {
+        return res.json({
+            error: err.message,
+            status: false
+        });
+    }
+};
+
 module.exports = {
     register,
     login,
     listUser,
-    updateUser
+    updateUser,
+    updateConnectedUser
 };
