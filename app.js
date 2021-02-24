@@ -8,6 +8,21 @@ require('dotenv').config();
 
 let app = express();
 
+
+/*
+Export and run database models
+ */
+let models = require("./models");
+
+models.sequelize.authenticate().then(async () => {
+  return await models.sequelize.sync({ force: true }).catch((err) => {
+    console.log(err);
+  });
+}).catch(err => {
+  console.log(err);
+});
+
+
 // For BodyParser
 app.use(bodyParser.urlencoded({
   extended: true,
