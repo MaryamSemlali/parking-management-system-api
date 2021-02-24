@@ -14,4 +14,6 @@ router.get('/users', passport.authenticate('jwt', { session: false }), usersCont
 router.put('/users/:userId', passport.authenticate('jwt', { session: false }), usersController.updateUser);
 router.put('/users', passport.authenticate('jwt', { session: false }), usersController.updateConnectedUser);
 
+router.delete('/users/:userId', passport.authenticate('jwt', { session: false }), usersController.deleteUser);
+
 module.exports = router;

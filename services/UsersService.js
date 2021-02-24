@@ -90,6 +90,22 @@ class UsersService {
             total: users.count
         };
     }
+
+    async deleteUser(userId) {
+        let user = await this.userModel.findByPk(userId);
+
+        if (user) {
+            await this.userModel.destroy({
+                where: { id: userId }
+            });
+
+            return {
+                message: 'User deleted successfully.'
+            };
+        } else {
+            throw new Error('Oops! User not found.');
+        }
+    }
 }
 
 module.exports = UsersService;
