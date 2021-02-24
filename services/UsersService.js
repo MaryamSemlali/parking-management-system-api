@@ -1,5 +1,6 @@
 const { validateUserData } = require('./../helpers/validateUserData');
 const { generateJWT } = require('./../helpers/generateJWT');
+const { comparePasswords } = require('./../helpers/comparePasswords');
 
 class UsersService {
 
@@ -22,6 +23,29 @@ class UsersService {
                     token: generateJWT(user.id, process.env.JWT_ENCRYPTION_KEY),
                     user: user
                 }
+            }
+        } else {
+            throw new Error('Oops! User data is not valid.');
+        }
+    }
+
+    async login(data) {
+        if (data.email && data.password) {
+            let user = await this.userModel.findOne({ where: { email: data.email } });
+
+            if (user) {
+                let isPasswordValid = await comparePasswords(user.password, data.password);
+
+                if (isPasswordValid) {
+                    return {
+                        token: generateJWT(user.id, process.env.JWT_ENCRYPTION_KEY),
+                        user: user
+                    }
+                } else {
+                    throw new Error('Oops! Wrong password.');
+                }
+            } else {
+                throw new Error('Oops! Not registered.');
             }
         } else {
             throw new Error('Oops! User data is not valid.');

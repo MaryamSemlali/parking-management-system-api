@@ -5,6 +5,8 @@ const pe = require('parse-error');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+const { generatePasswordHash } = require('./helpers/generatePasswordHash');
+
 
 let app = express();
 
@@ -24,7 +26,7 @@ models.sequelize.authenticate().then(async () => {
       firstName: process.env.SUPER_ADMIN_FIRST_NAME,
       lastName: process.env.SUPER_ADMIN_LAST_NAME,
       email: process.env.SUPER_ADMIN_EMAIL,
-      password: process.env.SUPER_ADMIN_PASSWORD,
+      password: generatePasswordHash(process.env.SUPER_ADMIN_PASSWORD),
       role: 'Super Admin'
     }
   });
