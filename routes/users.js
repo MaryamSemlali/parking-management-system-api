@@ -8,6 +8,8 @@ require('./../middleware/passport')(passport);
 router.post('/register', usersController.register);
 router.post('/login', usersController.login);
 
+router.post('/users', passport.authenticate('jwt', { session: false }), usersController.createAdmin);
+
 router.get('/users/me', passport.authenticate('jwt', { session: false }), usersController.listUser);
 router.get('/users', passport.authenticate('jwt', { session: false }), usersController.listAllUsers);
 

@@ -144,6 +144,27 @@ const deleteConnectedUser = async (req, res) => {
     }
 };
 
+const createAdmin = async (req, res) => {
+    try {
+        if (req.user.role !== 'User') {
+            const user = await usersService.register(req.body, true);
+            delete user.token;
+
+            return res.json({
+                ...user,
+                status: true
+            });
+        } else {
+            return res.send('Unauthorized');
+        }
+    } catch (err) {
+        return res.json({
+            error: err.message,
+            status: false
+        });
+    }
+};
+
 module.exports = {
     register,
     login,
@@ -152,5 +173,6 @@ module.exports = {
     updateConnectedUser,
     listAllUsers,
     deleteUser,
-    deleteConnectedUser
+    deleteConnectedUser,
+    createAdmin
 };
