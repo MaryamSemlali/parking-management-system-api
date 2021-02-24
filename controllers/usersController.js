@@ -130,12 +130,19 @@ const deleteUser = async (req, res) => {
 
 const deleteConnectedUser = async (req, res) => {
     try {
-        const user = await usersService.deleteUser(req.user.id);
+        if (req.user.role === 'Super Admin') {
+            return res.json({
+                error: "You can't delete super admin account.",
+                status: false
+            });
+        } else {
+            const user = await usersService.deleteUser(req.user.id);
 
-        return res.json({
-            ...user,
-            status: true
-        });
+            return res.json({
+                ...user,
+                status: true
+            });
+        }
     } catch (err) {
         return res.json({
             error: err.message,

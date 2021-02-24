@@ -95,13 +95,19 @@ class UsersService {
         let user = await this.userModel.findByPk(userId);
 
         if (user) {
-            await this.userModel.destroy({
-                where: { id: userId }
-            });
+            if (user.role === 'Super Admin') {
+                return {
+                    message: "You can't delete super admin account."
+                };
+            } else {
+                await this.userModel.destroy({
+                    where: { id: userId }
+                });
 
-            return {
-                message: 'User deleted successfully.'
-            };
+                return {
+                    message: 'User deleted successfully.'
+                };
+            }
         } else {
             throw new Error('Oops! User not found.');
         }
