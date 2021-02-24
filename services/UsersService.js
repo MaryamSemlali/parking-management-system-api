@@ -73,12 +73,21 @@ class UsersService {
             });
 
             user = await this.userModel.findByPk(userId);
+
+            return {
+                user
+            };
         } else {
             throw new Error('Oops! User not found.');
         }
+    }
+
+    async listAllUsers() {
+        let users = await this.userModel.findAndCountAll();
 
         return {
-            user
+            users: users.rows,
+            total: users.count
         };
     }
 }
