@@ -82,8 +82,16 @@ class UsersService {
         }
     }
 
-    async listAllUsers() {
-        let users = await this.userModel.findAndCountAll();
+    async listAllUsers(type) {
+        let options = {};
+        if (type) {
+            options = {
+                where: {
+                    role: type
+                }
+            };
+        }
+        let users = await this.userModel.findAndCountAll(options);
 
         return {
             users: users.rows,

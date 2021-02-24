@@ -91,7 +91,7 @@ const updateConnectedUser = async (req, res) => {
 const listAllUsers = async (req, res) => {
     try {
         if (req.user.role !== 'User') {
-            const user = await usersService.listAllUsers();
+            const user = await usersService.listAllUsers(req.query.type);
 
             return res.json({
                 ...user,
