@@ -10,4 +10,6 @@ router.post('/login', usersController.login);
 
 router.get('/users/me', passport.authenticate('jwt', { session: false }), usersController.listUser);
 
+router.put('/users/:userId', passport.authenticate('jwt', { session: false }), usersController.updateUser);
+
 module.exports = router;

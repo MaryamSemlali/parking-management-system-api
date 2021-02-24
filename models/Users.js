@@ -32,10 +32,6 @@ module.exports = function(sequelize, Sequelize) {
             notEmpty: true
         },
 
-        oldPassword: {
-            type: Sequelize.STRING
-        },
-
         role: {
             type: Sequelize.ENUM('Super Admin', 'Admin', 'User'),
             defaultValue: 'User'

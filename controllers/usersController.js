@@ -52,8 +52,29 @@ const listUser = async (req, res) => {
     }
 };
 
+const updateUser = async (req, res) => {
+    try {
+        if (req.user.role !== 'User') {
+            const user = await usersService.updateUser(req.params.userId, req.body);
+
+            return res.json({
+                ...user,
+                status: true
+            });
+        } else {
+            return res.send('Unauthorized');
+        }
+    } catch (err) {
+        return res.json({
+            error: err.message,
+            status: false
+        });
+    }
+};
+
 module.exports = {
     register,
     login,
-    listUser
+    listUser,
+    updateUser
 };

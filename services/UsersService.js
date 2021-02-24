@@ -59,6 +59,24 @@ class UsersService {
             user
         };
     }
+
+    async updateUser(userId, data) {
+        let user = await this.userModel.findByPk(userId);
+
+        if (user) {
+            await this.userModel.update(data, {
+                where: { id: userId }
+            });
+
+            user = await this.userModel.findByPk(userId);
+        } else {
+            throw new Error('Oops! User not found.');
+        }
+
+        return {
+            user
+        };
+    }
 }
 
 module.exports = UsersService;
