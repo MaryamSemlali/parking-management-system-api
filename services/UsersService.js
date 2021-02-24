@@ -1,6 +1,7 @@
 const { validateUserData } = require('./../helpers/validateUserData');
 const { generateJWT } = require('./../helpers/generateJWT');
 const { comparePasswords } = require('./../helpers/comparePasswords');
+const { generatePasswordHash } = require('./../helpers/generatePasswordHash');
 
 class UsersService {
 
@@ -64,6 +65,9 @@ class UsersService {
         let user = await this.userModel.findByPk(userId);
 
         if (user) {
+            if (data.password) {
+                data.password = generatePasswordHash(data.password);
+            }
             await this.userModel.update(data, {
                 where: { id: userId }
             });
