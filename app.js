@@ -56,8 +56,8 @@ app.get('/', function (req, res) {
   });
 });
 
-/*let template = require('./routes/template');
-app.use('/v1', [ template ]);*/
+let users = require('./routes/users');
+app.use('/v1', [ users ]);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
