@@ -4,6 +4,7 @@ const logger = require('morgan');
 const pe = require('parse-error');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 require('dotenv').config();
 const { generatePasswordHash } = require('./helpers/generatePasswordHash');
 
@@ -46,6 +47,9 @@ app.use(bodyParser.json({ limit: '200mb' }));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Passport
+app.use(passport.initialize());
 
 // CORS
 app.use(cors());
