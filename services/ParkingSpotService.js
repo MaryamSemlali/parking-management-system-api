@@ -34,6 +34,24 @@ class ParkingSpotService {
             total: parkingSpots.count
         };
     }
+
+    async update(spotId, data) {
+        let parkingSpot = await this.parkingSpotModel.findByPk(spotId);
+
+        if (parkingSpot) {
+            await this.parkingSpotModel.update(data, {
+                where: { id: spotId }
+            });
+
+            parkingSpot = await this.parkingSpotModel.findByPk(spotId);
+
+            return {
+                parkingSpot
+            };
+        } else {
+            throw new Error('Oops! Parking spot not found.');
+        }
+    }
 }
 
 module.exports = ParkingSpotService;

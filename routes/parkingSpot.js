@@ -9,4 +9,6 @@ router.post('/parkingSpot', passport.authenticate('jwt', { session: false }), pa
 
 router.get('/parkingSpot', passport.authenticate('jwt', { session: false }), parkingSpotController.listAll);
 
+router.put('/parkingSpot/:spotId', passport.authenticate('jwt', { session: false }), parkingSpotController.update);
+
 module.exports = router;

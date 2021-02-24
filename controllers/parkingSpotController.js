@@ -44,7 +44,28 @@ const listAll = async (req, res) => {
     }
 };
 
+const update = async (req, res) => {
+    try {
+        if (req.user.role !== 'User') {
+            const parkingSpot = await parkingSpotService.update(req.params.spotId, req.body);
+
+            return res.json({
+                ...parkingSpot,
+                status: true
+            });
+        } else {
+            return res.send('Unauthorized');
+        }
+    } catch (err) {
+        return res.json({
+            error: err.message,
+            status: false
+        });
+    }
+};
+
 module.exports = {
     create,
-    listAll
+    listAll,
+    update
 };
