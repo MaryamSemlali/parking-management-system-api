@@ -33,8 +33,7 @@ module.exports = function(sequelize, Sequelize) {
         },
 
         oldPassword: {
-            type: Sequelize.STRING,
-            notEmpty: true
+            type: Sequelize.STRING
         },
 
         role: {

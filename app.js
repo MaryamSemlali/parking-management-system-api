@@ -8,16 +8,27 @@ require('dotenv').config();
 
 let app = express();
 
-
 /*
 Export and run database models
  */
 let models = require("./models");
 
 models.sequelize.authenticate().then(async () => {
-  return await models.sequelize.sync({ force: true }).catch((err) => {
-    console.log(err);
+  await models.sequelize.sync({ force: true });
+
+  // Create super admin
+  const User = models.users;
+  await User.findOrCreate({
+    where: { email: process.env.SUPER_ADMIN_EMAIL },
+    defaults: {
+      firstName: process.env.SUPER_ADMIN_FIRST_NAME,
+      lastName: process.env.SUPER_ADMIN_LAST_NAME,
+      email: process.env.SUPER_ADMIN_EMAIL,
+      password: process.env.SUPER_ADMIN_PASSWORD,
+      role: 'Super Admin'
+    }
   });
+
 }).catch(err => {
   console.log(err);
 });
