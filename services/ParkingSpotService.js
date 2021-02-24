@@ -25,6 +25,15 @@ class ParkingSpotService {
             throw new Error('Oops! Parking spot data is not valid.');
         }
     }
+
+    async listAll() {
+        let parkingSpots = await this.parkingSpotModel.findAndCountAll();
+
+        return {
+            parkingSpots: parkingSpots.rows,
+            total: parkingSpots.count
+        };
+    }
 }
 
 module.exports = ParkingSpotService;

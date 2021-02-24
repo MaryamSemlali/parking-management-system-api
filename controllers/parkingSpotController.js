@@ -24,6 +24,27 @@ const create = async (req, res) => {
     }
 };
 
+const listAll = async (req, res) => {
+    try {
+        if (req.user.role !== 'User') {
+            const parkingSpots = await parkingSpotService.listAll();
+
+            return res.json({
+                ...parkingSpots,
+                status: true
+            });
+        } else {
+            return res.send('Unauthorized');
+        }
+    } catch (err) {
+        return res.json({
+            error: err.message,
+            status: false
+        });
+    }
+};
+
 module.exports = {
-    create
+    create,
+    listAll
 };
