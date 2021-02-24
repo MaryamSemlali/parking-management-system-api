@@ -1,4 +1,5 @@
 const { validateUserData } = require('./../helpers/validateUserData');
+const { generateJWT } = require('./../helpers/generateJWT');
 
 class UsersService {
 
@@ -10,12 +11,17 @@ class UsersService {
         const userData = validateUserData(data, isAdmin);
 
         if (userData.isValid === true) {
-            const user = await this.userModel.findOne({ where: { email: userData.validatedUserData.email } });
+            let user = await this.userModel.findOne({ where: { email: userData.validatedUserData.email } });
 
             if (user) {
                 throw new Error('Oops! User already exits.');
             } else {
-                return this.userModel.create(userData.validatedUserData);
+                user = await this.userModel.create(userData.validatedUserData);
+
+                return {
+                    token: generateJWT(user.id, process.env.JWT_ENCRYPTION_KEY),
+                    user: user
+                }
             }
         } else {
             throw new Error('Oops! User data is not valid.');

@@ -9,7 +9,7 @@ const register = async (req, res) => {
         const user = await usersService.register(req.body, false);
 
         return res.json({
-            user,
+            ...user,
             status: true
         });
     } catch (err) {
