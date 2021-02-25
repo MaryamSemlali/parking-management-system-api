@@ -126,11 +126,28 @@ const unassignSpot = async (req, res) => {
     }
 };
 
+const listMySpots = async (req, res) => {
+    try {
+        const parkingSpots = await parkingSpotService.listMySpots(req.user.id);
+
+        return res.json({
+            ...parkingSpots,
+            status: true
+        });
+    } catch (err) {
+        return res.json({
+            error: err.message,
+            status: false
+        });
+    }
+};
+
 module.exports = {
     create,
     listAll,
     update,
     deleteSpot,
     assignSpot,
-    unassignSpot
+    unassignSpot,
+    listMySpots
 };

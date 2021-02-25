@@ -8,6 +8,7 @@ require('./../middleware/passport')(passport);
 router.post('/parkingSpot', passport.authenticate('jwt', { session: false }), parkingSpotController.create);
 
 router.get('/parkingSpot', passport.authenticate('jwt', { session: false }), parkingSpotController.listAll);
+router.get('/parkingSpot/me', passport.authenticate('jwt', { session: false }), parkingSpotController.listMySpots);
 
 router.put('/parkingSpot/:spotId', passport.authenticate('jwt', { session: false }), parkingSpotController.update);
 

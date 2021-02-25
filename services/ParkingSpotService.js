@@ -1,4 +1,5 @@
 const { validateParkingSpotData } = require('./../helpers/validateParkingSpotData');
+const moment = require('moment');
 
 class ParkingSpotService {
 
@@ -79,7 +80,13 @@ class ParkingSpotService {
             data.userId = user.id;
             data.parkingSpotId = parkingSpot.id;
 
-            let reservation = await this.reservationsModel.create(data);
+            let reservation = await this.reservationsModel.findOne({ where: { userId: data.userId } });
+
+            if (reservation) {
+                throw new Error('Oops! User already have a parking spot.');
+            } else {
+                reservation = await this.reservationsModel.create(data);
+            }
 
             return {
                 reservation
@@ -101,6 +108,32 @@ class ParkingSpotService {
             return {
                 message: 'Parking spot unassigned successfully.'
             };
+        } else {
+            throw new Error('Oops! Something went wrong.');
+        }
+    }
+
+    async listMySpots(userId) {
+        let user = await this.userModel.findByPk(userId);
+
+        if (user) {
+            let reservation = await user.getReservation();
+            if (reservation) {
+                let parkingSpot = await reservation.getParkingSpot();
+
+                if (moment(new Date()).isSameOrBefore(reservation.reservationEnd)) {
+                    return {
+                        parkingSpots: parkingSpot,
+                    };
+                } else {
+                    return {
+                        message: 'You have no parking spot.',
+                    };
+                }
+            } else {
+                throw new Error('Oops! You have no parking spot.');
+            }
+
         } else {
             throw new Error('Oops! Something went wrong.');
         }
