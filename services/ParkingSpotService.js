@@ -52,6 +52,22 @@ class ParkingSpotService {
             throw new Error('Oops! Parking spot not found.');
         }
     }
+
+    async deleteSpot(spotId) {
+        let parkingSpot = await this.parkingSpotModel.findByPk(spotId);
+
+        if (parkingSpot) {
+            await this.parkingSpotModel.destroy({
+                where: { id: spotId }
+            });
+
+            return {
+                message: 'Parking spot deleted successfully.'
+            };
+        } else {
+            throw new Error('Oops! Parking spot not found.');
+        }
+    }
 }
 
 module.exports = ParkingSpotService;

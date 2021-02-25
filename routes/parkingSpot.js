@@ -11,4 +11,6 @@ router.get('/parkingSpot', passport.authenticate('jwt', { session: false }), par
 
 router.put('/parkingSpot/:spotId', passport.authenticate('jwt', { session: false }), parkingSpotController.update);
 
+router.delete('/parkingSpot/:spotId', passport.authenticate('jwt', { session: false }), parkingSpotController.deleteSpot);
+
 module.exports = router;

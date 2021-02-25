@@ -64,8 +64,29 @@ const update = async (req, res) => {
     }
 };
 
+const deleteSpot = async (req, res) => {
+    try {
+        if (req.user.role !== 'User') {
+            const parkingSpot = await parkingSpotService.deleteSpot(req.params.spotId);
+
+            return res.json({
+                ...parkingSpot,
+                status: true
+            });
+        } else {
+            return res.send('Unauthorized');
+        }
+    } catch (err) {
+        return res.json({
+            error: err.message,
+            status: false
+        });
+    }
+};
+
 module.exports = {
     create,
     listAll,
-    update
+    update,
+    deleteSpot
 };
