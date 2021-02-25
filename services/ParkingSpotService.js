@@ -138,6 +138,25 @@ class ParkingSpotService {
             throw new Error('Oops! Something went wrong.');
         }
     }
+
+    async listFreeSpots() {
+        let freeSpots = [];
+        let parkingSpots = await this.parkingSpotModel.findAll();
+
+        for (let i = 0, len = parkingSpots.length; i < len; i++) {
+            const element = parkingSpots[i];
+            const reservation = await element.getReservation();
+
+            if (!reservation) {
+                freeSpots.push(element);
+            }
+        }
+
+
+        return {
+            freeSpots
+        };
+    }
 }
 
 module.exports = ParkingSpotService;

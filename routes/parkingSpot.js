@@ -9,6 +9,7 @@ router.post('/parkingSpot', passport.authenticate('jwt', { session: false }), pa
 
 router.get('/parkingSpot', passport.authenticate('jwt', { session: false }), parkingSpotController.listAll);
 router.get('/parkingSpot/me', passport.authenticate('jwt', { session: false }), parkingSpotController.listMySpots);
+router.get('/parkingSpot/free', passport.authenticate('jwt', { session: false }), parkingSpotController.listFreeSpots);
 
 router.put('/parkingSpot/:spotId', passport.authenticate('jwt', { session: false }), parkingSpotController.update);
 

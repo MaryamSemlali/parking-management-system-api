@@ -142,6 +142,22 @@ const listMySpots = async (req, res) => {
     }
 };
 
+const listFreeSpots = async (req, res) => {
+    try {
+        const parkingSpots = await parkingSpotService.listFreeSpots();
+
+        return res.json({
+            ...parkingSpots,
+            status: true
+        });
+    } catch (err) {
+        return res.json({
+            error: err.message,
+            status: false
+        });
+    }
+};
+
 module.exports = {
     create,
     listAll,
@@ -149,5 +165,6 @@ module.exports = {
     deleteSpot,
     assignSpot,
     unassignSpot,
-    listMySpots
+    listMySpots,
+    listFreeSpots
 };
