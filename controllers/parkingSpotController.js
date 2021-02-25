@@ -1,8 +1,10 @@
 let ParkingSpotService = require('./../services/ParkingSpotService');
 let models = require("../models"),
-    ParkingSpot = models.parkingSpot;
+    ParkingSpot = models.parkingSpot,
+    Reservations = models.reservations,
+    User = models.users;
 
-let parkingSpotService = new ParkingSpotService({ ParkingSpot });
+let parkingSpotService = new ParkingSpotService({ ParkingSpot, User, Reservations });
 
 const create = async (req, res) => {
     try {
@@ -84,9 +86,31 @@ const deleteSpot = async (req, res) => {
     }
 };
 
+const assignSpot = async (req, res) => {
+    try {
+        if (req.user.role !== 'User') {
+            const parkingSpot = await parkingSpotService.assignSpot(req.params.spotId, req.params.userId, req.body);
+
+            return res.json({
+                ...parkingSpot,
+                status: true
+            });
+        } else {
+            return res.send('Unauthorized');
+        }
+    } catch (err) {
+        return res.json({
+            error: err.message,
+            status: false
+        });
+    }
+};
+
+
 module.exports = {
     create,
     listAll,
     update,
-    deleteSpot
+    deleteSpot,
+    assignSpot
 };

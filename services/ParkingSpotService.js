@@ -2,8 +2,10 @@ const { validateParkingSpotData } = require('./../helpers/validateParkingSpotDat
 
 class ParkingSpotService {
 
-    constructor({ ParkingSpot }) {
+    constructor({ ParkingSpot, User, Reservations }) {
         this.parkingSpotModel = ParkingSpot;
+        this.userModel = User;
+        this.reservationsModel = Reservations;
     }
 
     async createSpot(data) {
@@ -66,6 +68,24 @@ class ParkingSpotService {
             };
         } else {
             throw new Error('Oops! Parking spot not found.');
+        }
+    }
+
+    async assignSpot(spotId, userId, data) {
+        let parkingSpot = await this.parkingSpotModel.findByPk(spotId);
+        let user = await this.userModel.findByPk(userId);
+
+        if (parkingSpot && user) {
+            data.userId = user.id;
+            data.parkingSpotId = parkingSpot.id;
+
+            let reservation = await this.reservationsModel.create(data);
+
+            return {
+                reservation
+            };
+        } else {
+            throw new Error('Oops! Something went wrong.');
         }
     }
 }
