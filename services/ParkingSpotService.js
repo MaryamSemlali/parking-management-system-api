@@ -72,7 +72,8 @@ class ParkingSpotService {
         }
     }
 
-    async assignSpot(spotId, userId, data) {
+    async assignSpot(spotId, userId) {
+        let data = {};
         let parkingSpot = await this.parkingSpotModel.findByPk(spotId);
         let user = await this.userModel.findByPk(userId);
 
@@ -121,15 +122,9 @@ class ParkingSpotService {
             if (reservation) {
                 let parkingSpot = await reservation.getParkingSpot();
 
-                if (moment(new Date()).isSameOrBefore(reservation.reservationEnd)) {
-                    return {
-                        parkingSpots: parkingSpot,
-                    };
-                } else {
-                    return {
-                        message: 'You have no parking spot.',
-                    };
-                }
+                return {
+                    parkingSpots: parkingSpot,
+                };
             } else {
                 throw new Error('Oops! You have no parking spot.');
             }

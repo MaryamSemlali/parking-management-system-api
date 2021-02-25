@@ -4,6 +4,12 @@ let models = require("../models"),
 
 let usersService = new UsersService({ User });
 
+/**
+ * Create a new user
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const register = async (req, res) => {
     try {
         const user = await usersService.register(req.body, false);
@@ -20,6 +26,12 @@ const register = async (req, res) => {
     }
 };
 
+/**
+ * Login a user
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const login = async (req, res) => {
     try {
         const user = await usersService.login(req.body);
@@ -36,6 +48,12 @@ const login = async (req, res) => {
     }
 };
 
+/**
+ * List connected user
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const listUser = async (req, res) => {
     try {
         const user = await usersService.listUser(req.user.id);
@@ -52,6 +70,12 @@ const listUser = async (req, res) => {
     }
 };
 
+/**
+ * Update a user
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const updateUser = async (req, res) => {
     try {
         if (req.user.role !== 'User') {
@@ -72,6 +96,12 @@ const updateUser = async (req, res) => {
     }
 };
 
+/**
+ * Update connected user
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const updateConnectedUser = async (req, res) => {
     try {
         const user = await usersService.updateUser(req.user.id, req.body);
@@ -88,6 +118,12 @@ const updateConnectedUser = async (req, res) => {
     }
 };
 
+/**
+ * List all users
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const listAllUsers = async (req, res) => {
     try {
         if (req.user.role !== 'User') {
@@ -108,6 +144,12 @@ const listAllUsers = async (req, res) => {
     }
 };
 
+/**
+ * Delete a user
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const deleteUser = async (req, res) => {
     try {
         if (req.user.role !== 'User') {
@@ -128,6 +170,12 @@ const deleteUser = async (req, res) => {
     }
 };
 
+/**
+ * Deleted connected user
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const deleteConnectedUser = async (req, res) => {
     try {
         if (req.user.role === 'Super Admin') {
@@ -151,6 +199,12 @@ const deleteConnectedUser = async (req, res) => {
     }
 };
 
+/**
+ * Create admin account
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const createAdmin = async (req, res) => {
     try {
         if (req.user.role !== 'User') {

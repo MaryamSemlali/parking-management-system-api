@@ -1,5 +1,11 @@
 const { generatePasswordHash } = require('./generatePasswordHash');
 
+/**
+ * Validate user data
+ * @param userData data
+ * @param isAdmin is admin data or user data
+ * @returns {{isValid: boolean, validatedUserData: {}}}
+ */
 module.exports.validateUserData = (userData, isAdmin) => {
     let isValid = true;
     let validatedUserData = {};

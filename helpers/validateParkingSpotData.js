@@ -1,3 +1,8 @@
+/**
+ * Validate parking spot data
+ * @param spotData data
+ * @returns {{isValid: boolean, validatedSpotData: {}}}
+ */
 module.exports.validateParkingSpotData = (spotData) => {
     let isValid = true;
     let validatedSpotData = {};

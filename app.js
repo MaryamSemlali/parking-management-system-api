@@ -54,6 +54,10 @@ app.use(passport.initialize());
 // CORS
 app.use(cors());
 
+/*
+Routes START
+ */
+
 // The main page
 app.get('/', function (req, res) {
   res.json({
@@ -66,6 +70,10 @@ let users = require('./routes/users');
 let parkingSpot = require('./routes/parkingSpot');
 
 app.use('/v1', [ users, parkingSpot ]);
+
+/*
+Routes END
+ */
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -85,6 +93,8 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
+// If there is any unhandled rejection in the code.
+// This so the application don't crash
 process.on('unhandledRejection', error => {
   console.error('Uncaught Error', pe(error));
 });

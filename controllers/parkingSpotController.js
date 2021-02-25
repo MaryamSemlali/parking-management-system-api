@@ -6,6 +6,12 @@ let models = require("../models"),
 
 let parkingSpotService = new ParkingSpotService({ ParkingSpot, User, Reservations });
 
+/**
+ * Create a new parking spot
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const create = async (req, res) => {
     try {
         if (req.user.role !== 'User') {
@@ -26,6 +32,12 @@ const create = async (req, res) => {
     }
 };
 
+/**
+ * List all parking spots
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const listAll = async (req, res) => {
     try {
         if (req.user.role !== 'User') {
@@ -46,6 +58,12 @@ const listAll = async (req, res) => {
     }
 };
 
+/**
+ * Update a parking spot
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const update = async (req, res) => {
     try {
         if (req.user.role !== 'User') {
@@ -66,6 +84,12 @@ const update = async (req, res) => {
     }
 };
 
+/**
+ * Delete a parking spot
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const deleteSpot = async (req, res) => {
     try {
         if (req.user.role !== 'User') {
@@ -86,10 +110,16 @@ const deleteSpot = async (req, res) => {
     }
 };
 
+/**
+ * Assign a parking spot to a user
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const assignSpot = async (req, res) => {
     try {
         if (req.user.role !== 'User') {
-            const parkingSpot = await parkingSpotService.assignSpot(req.params.spotId, req.params.userId, req.body);
+            const parkingSpot = await parkingSpotService.assignSpot(req.params.spotId, req.params.userId);
 
             return res.json({
                 ...parkingSpot,
@@ -106,6 +136,12 @@ const assignSpot = async (req, res) => {
     }
 };
 
+/**
+ * Unassign parking spot
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const unassignSpot = async (req, res) => {
     try {
         if (req.user.role !== 'User') {
@@ -126,6 +162,12 @@ const unassignSpot = async (req, res) => {
     }
 };
 
+/**
+ * List connected user parking spot
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const listMySpots = async (req, res) => {
     try {
         const parkingSpots = await parkingSpotService.listMySpots(req.user.id);
@@ -142,6 +184,12 @@ const listMySpots = async (req, res) => {
     }
 };
 
+/**
+ * List all available parking spots
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
 const listFreeSpots = async (req, res) => {
     try {
         const parkingSpots = await parkingSpotService.listFreeSpots();
