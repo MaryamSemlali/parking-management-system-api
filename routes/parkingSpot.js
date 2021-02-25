@@ -14,5 +14,6 @@ router.put('/parkingSpot/:spotId', passport.authenticate('jwt', { session: false
 router.delete('/parkingSpot/:spotId', passport.authenticate('jwt', { session: false }), parkingSpotController.deleteSpot);
 
 router.post('/parkingSpot/:spotId/assign/:userId', passport.authenticate('jwt', { session: false }), parkingSpotController.assignSpot);
+router.post('/parkingSpot/:spotId/unassign/:userId', passport.authenticate('jwt', { session: false }), parkingSpotController.unassignSpot);
 
 module.exports = router;

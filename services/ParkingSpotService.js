@@ -88,6 +88,23 @@ class ParkingSpotService {
             throw new Error('Oops! Something went wrong.');
         }
     }
+
+    async unassignSpot(spotId, userId) {
+        let parkingSpot = await this.parkingSpotModel.findByPk(spotId);
+        let user = await this.userModel.findByPk(userId);
+
+        if (parkingSpot && user) {
+            await this.reservationsModel.destroy({
+                where: { userId: userId, parkingSpotId: spotId }
+            });
+
+            return {
+                message: 'Parking spot unassigned successfully.'
+            };
+        } else {
+            throw new Error('Oops! Something went wrong.');
+        }
+    }
 }
 
 module.exports = ParkingSpotService;
